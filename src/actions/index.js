@@ -7,8 +7,18 @@ export const signup = (formProps, callback) => async dispatch => {
     const response = await axios.post('http://localhost:5000/api/users/register', formProps)
 
     dispatch({ type: AUTH_USER , payload: response.data.token })
+    localStorage.setItem('token', response.data.token)
     callback();
     }catch (error) {
         dispatch({ type: AUTH_ERROR, payload: error.response.data}); 
+    }
+}
+
+export const signout = () => {
+    localStorage.clearItem('token')
+
+    return {
+        type: AUTH_USER,
+        payload: ''
     }
 }
